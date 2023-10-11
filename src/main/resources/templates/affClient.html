@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Infos Client</title>
+</head>
+<body>
+<table border="1">
+  <th>ID</th>
+  <th>NOM</th>
+  <th>PRENOM</th>
+  <th>TELEPHONE</th>
+  <tr>
+    <td th:text="${monClient.id}"/>
+    <td th:text="${monClient.mail}"/>
+    <td th:text="${monClient.nom}"/>
+    <td th:text="${monClient.prenom}"/>
+  </tr>
+</table>
+
+
+<table border="1">
+  <th>NUM LOC</th>
+  <th>DATE LOC</th>
+  <th>KM TOTAL</th>
+  <th>Adresse de depart</th>
+  <tr th:each="loc : ${mesLocations}">
+    <td th:text="${loc.id}"/>
+    <td th:text="${loc.date}"/>
+    <td th:text="${loc.kmTotal}"/>
+    <td th:text="${loc.adrDepart.id}"/>
+  </tr>
+</table>
+
+<table border="1">
+  <th>id adresse</th>
+  <th>cp</th>
+  <th>localite</th>
+  <th>rue</th>
+  <th>num</th>
+  <tr th:each="adresse : ${adresseLocationSansDoublon}">
+    <td th:text="${adresse.id}"/>
+    <td th:text="${adresse.cp}"/>
+    <td th:text="${adresse.localite}"/>
+    <td th:text="${adresse.rue}"/>
+    <td th:text="${adresse.num}"/>
+  </tr>
+</table>
+<a href ="/">retour</a>
