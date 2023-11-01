@@ -15,6 +15,7 @@
         <td th:text="${unClient.nom}"/>
         <td th:text="${unClient.prenom}"/>
         <td th:text="${unClient.tel}"/>
+        <td><a th:href="@{'/clients/selection?numcli=' + ${unClient.id}}">Sélection</a></td>
     </tr>
 </table>
 </body>
