@@ -43,7 +43,7 @@ public class GestClient {
 
             model.put("monClient", cl);
             model.put("mesLocations", cl.getLocations());
-            //model.put("adresseLocationSansDoublon", cl.adresseLocationSansDoublon());
+            model.put("adresseLocationSansDoublon", cl.adresseLocationSansDoublon());
 
         } catch (Exception e) {
             System.out.println("erreur lors de la lecture " + e);
@@ -67,20 +67,4 @@ public class GestClient {
         return "affMesClients";  // page html à développer
     }
 
-/*
-    @RequestMapping("/selectionEntre")
-    String selection(@RequestParam("min") Integer min, @RequestParam("min") Integer max, Map<String, Object> model) {
-        List<Client> cl = null;
-
-        try {
-            cl = ClientService.findByClientFactureBetween(min, max);   // à développer
-
-            model.put("mesClients", cl);
-        } catch (Exception e) {
-            System.out.println("erreur lors de la lecture " + e);
-            return "error";
-        }
-        return "affMesClients";  // page html à développer
-    }
-     */
 }

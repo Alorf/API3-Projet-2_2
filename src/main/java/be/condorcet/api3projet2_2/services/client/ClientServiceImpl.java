@@ -59,14 +59,12 @@ public class ClientServiceImpl implements InterfClientService{
 
     @Override
     public List<Taxi> taxiUtiliseSansDoublon(Integer idClient) throws Exception {
-        Client client = read(idClient);
-        return client.taxiUtiliseSansDoublon();
+        return clientRepository.taxiUtiliseSansDoublon(idClient);
     }
 
     @Override
     public List<Adresse> adresseLocationSansDoublon(Integer idClient) throws Exception {
-        Client client = read(idClient);
-        return client.adresseLocationSansDoublon();
+        return clientRepository.adresseLocationSansDoublon(idClient);
     }
 
 }

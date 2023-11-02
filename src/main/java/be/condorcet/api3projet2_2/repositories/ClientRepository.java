@@ -21,18 +21,19 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
 
     //Opérations spéciales
 
-    /*
-    @Query(value = "SELECT t.id, t.immatriculation, t.carburant, t.prixKm\n" +
+
+    @Query(value = "SELECT DISTINCT t\n" +
             "FROM Client c\n" +
             "         JOIN Location l ON l.id = c.id\n" +
             "         JOIN Facture f ON f.location.id = l.id\n" +
             "         JOIN Taxi t ON t.id = f.taxi.id\n" +
             "WHERE c.id=:idclient")
     List<Taxi> taxiUtiliseSansDoublon(@Param("idclient") Integer idClient);
-    //Failed to convert from type [java.lang.Object[]] to type [be.condorcet.api3projet2_2.entities.Taxi] for value [{...}]
 
-    @Query(value = "SELECT DISTINCT API_ADRESSE.ID_ADRESSE, CP, LOCALITE, RUE, NUM FROM API_ADRESSE JOIN API_LOCATION AL on API_ADRESSE.ID_ADRESSE = AL.ID_ADRESSE WHERE ID_CLIENT = :idclient", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT a\n" +
+            "FROM Adresse a\n" +
+            "         JOIN Location l on l.adrDepart.id = a.id\n" +
+            "WHERE l.client.id = :idclient")
     List<Adresse> adresseLocationSansDoublon(@Param("idclient") Integer idClient);
-    //Failed to convert from type [java.lang.Object[]] to type [be.condorcet.api3projet2_2.entities.Adresse] for value [{...}]
-    */
+
 }
