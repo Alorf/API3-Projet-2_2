@@ -43,14 +43,19 @@ class ClientServiceImplTest {
         try {
             cl = new Client(null, "MailTest@gmail.com", "NomTest", "PrenomTest", "123", new ArrayList<>());
             clientServiceImpl.create(cl);
+            System.out.println("création du client : " + cl);
 
             adresse = new Adresse(null, 7000, "Mons", "Rue de la chaussée", "1");
             adresseServiceImpl.create(adresse);
+            System.out.println("création de l'adresse : " + adresse);
+
 
             loc = new Location(null, LocalDate.now(), 30, cl, adresse, new ArrayList<>());
             locationServiceImpl.create(loc);
+            System.out.println("création de la location : " + loc);
 
-            System.out.println("création du client : " + cl);
+
+
         } catch (Exception e) {
             System.out.println("erreur de création du client : " + cl + " erreur : " + e);
         }
@@ -58,9 +63,25 @@ class ClientServiceImplTest {
 
     @AfterEach
     void tearDown() {
+
+
         try {
             locationServiceImpl.delete(loc);
+
+            System.out.println("effacement de la location : " + loc);
+        } catch (Exception e) {
+            System.out.println("erreur d'effacement de la location :" + loc + " erreur : " + e);
+        }
+
+        try {
             adresseServiceImpl.delete(adresse);
+
+            System.out.println("effacement de l'adresse : " + adresse);
+        } catch (Exception e) {
+            System.out.println("erreur d'effacement de l'adresse :" + adresse + " erreur : " + e);
+        }
+
+        try {
             clientServiceImpl.delete(cl);
 
             System.out.println("effacement du client : " + cl);
@@ -76,7 +97,6 @@ class ClientServiceImplTest {
         assertEquals("NomTest", cl.getNom(), "nom client non enregistré : " + cl.getNom() + " au lieu de NomTest");
         assertEquals("PrenomTest", cl.getPrenom(), "prénom client non enregistré : " + cl.getPrenom() + " au lieu de PrenomTest");
         assertEquals("123", cl.getTel(), "tel client non enregistré : " + cl.getTel() + " au lieu de 123");
-        assertEquals(new ArrayList<>(), cl.getLocations(), "liste de locations non vide");
     }
 
     @Test
@@ -84,11 +104,11 @@ class ClientServiceImplTest {
         try {
             int idCli = cl.getId();
             Client cl2 = clientServiceImpl.read(idCli);
-            assertEquals(cl.getMail(), cl2.getMail(), "mail client non lu : " + cl2.getMail() + " au lieu de MailTest");
-            assertEquals(cl.getNom(), cl2.getNom(), "nom client non lu : " + cl2.getNom() + " au lieu de NomTest");
-            assertEquals(cl.getPrenom(), cl2.getPrenom(), "prénom client non lu : " + cl2.getPrenom() + " au lieu de PrenomTest");
-            assertEquals(cl.getTel(), cl2.getTel(), "tel client non lu : " + cl2.getTel() + " au lieu de 123");
 
+            assertEquals(cl.getMail(), cl2.getMail(), "mail différent" + cl.getMail() + " au lieu de " + cl2.getMail());
+            assertEquals(cl.getNom(), cl2.getNom(), "nom différent" + cl.getNom() + " au lieu de " + cl2.getNom());
+            assertEquals(cl.getPrenom(), cl2.getPrenom(), "prénom différent" + cl.getPrenom() + " au lieu de " + cl2.getPrenom());
+            assertEquals(cl.getTel(), cl2.getTel(), "tel différent" + cl.getTel() + " au lieu de " + cl2.getTel());
         } catch (Exception e) {
             fail("Recherche infructueuse : " + e);
         }
@@ -97,13 +117,16 @@ class ClientServiceImplTest {
     @Test
     void update() {
         try {
-            Client cl2 = new Client(cl.getId(), cl.getMail(), cl.getNom(), cl.getPrenom(), cl.getTel(), new ArrayList<>());
-            cl2.setMail("MailTest2@gmail.com");
-            cl2.setNom("NomTest2");
-            cl2.setPrenom("PrenomTest2");
-            cl2.setTel("126454");
-            clientServiceImpl.update(cl2);
-            assertNotEquals(cl, cl2, "client non mis à jour");
+            cl.setMail("MailTest2@gmail.com");
+            cl.setNom("NomTest2");
+            cl.setPrenom("PrenomTest2");
+            cl.setTel("126454");
+            cl = clientServiceImpl.update(cl);
+
+            assertEquals(cl.getMail(), "MailTest2@gmail.com", "mail différent" + cl.getMail() + " au lieu de MailTest2@gmail.com");
+            assertEquals(cl.getNom(), "NomTest2", "nom différent" + cl.getNom() + " au lieu de NomTest2");
+            assertEquals(cl.getPrenom(), "PrenomTest2", "prénom différent" + cl.getPrenom() + " au lieu de PrenomTest2");
+            assertEquals(cl.getTel(), "126454", "tel différent" + cl.getTel() + " au lieu de 126454");
         } catch (Exception e) {
             fail("Mise à jour infructueuse : " + e);
         }
@@ -136,23 +159,22 @@ class ClientServiceImplTest {
     }
 
     @Test
-    void testRead() {
+    void rechNom() {
         //Recherche nom
-        try{
+        try {
             List<Client> lc = clientServiceImpl.read("NomTest");
             boolean trouve = false;
             for (Client c : lc) {
                 System.out.println("client : " + c.getNom());
-                if (c.getNom().startsWith("NomTest")){
+                if (c.getNom().startsWith("NomTest")) {
                     trouve = true;
                     break;
-                }
-                else {
+                } else {
                     fail("un record ne correspond pas , nom = " + c.getNom());
                 }
             }
             assertTrue(trouve, "record non trouvé dans la liste");
-        }catch (Exception e){
+        } catch (Exception e) {
             fail("Erreur lors du read by nom : " + e);
         }
 
@@ -160,12 +182,12 @@ class ClientServiceImplTest {
 
     @Test
     void findLocationsByClient() {
-        try{
-            List<Location> locs = locationServiceImpl.getLocationsByClientAndDatelocBetween(cl,LocalDate.now().minusYears(3),LocalDate.now());
+        try {
+            List<Location> locs = locationServiceImpl.locationEntreDeuxDates(cl, LocalDate.now().minusYears(3), LocalDate.now());
             locs.forEach(System.out::println);
 
             assertNotEquals(0, locs.size(), "la liste ne contient aucun élément");
-        }catch (Exception e){
+        } catch (Exception e) {
             fail("erreur de recherche de locations par client " + e);
         }
 
@@ -173,22 +195,24 @@ class ClientServiceImplTest {
 
     @Test
     void taxiUtiliseSansDoublon() {
-        try{
+        try {
             List<Taxi> taxis = clientServiceImpl.taxiUtiliseSansDoublon(1);
+            taxis.forEach(System.out::println);
 
             assertNotEquals(0, taxis.size(), "la liste ne contient aucun élément");
-        }catch (Exception e){
+        } catch (Exception e) {
             fail("erreur de recherche de taxis par client " + e);
         }
     }
 
     @Test
     void adresseLocationSansDoublon() {
-        try{
+        try {
             List<Adresse> adresses = clientServiceImpl.adresseLocationSansDoublon(1);
+            adresses.forEach(System.out::println);
 
             assertNotEquals(0, adresses.size(), "la liste ne contient aucun élément");
-        }catch (Exception e){
+        } catch (Exception e) {
             fail("erreur de recherche d'adresses par client " + e);
         }
     }

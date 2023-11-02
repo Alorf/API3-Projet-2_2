@@ -69,5 +69,4 @@ public class ClientServiceImpl implements InterfClientService{
         return client.adresseLocationSansDoublon();
     }
 
-
 }

@@ -3,6 +3,7 @@ package be.condorcet.api3projet2_2.services.adresse;
 
 import be.condorcet.api3projet2_2.entities.Adresse;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,24 +47,24 @@ class AdresseServiceImplTest {
     @Test
     void create() {
         assertNotEquals(0, adresse.getId(), "id adresse non incrémenté");
-        assertEquals(7000, adresse.getCp(), "code postal non conforme");
-        assertEquals("Mons", adresse.getLocalite(), "ville non conforme");
-        assertEquals("Rue de la chaussée", adresse.getRue(), "rue non conforme");
-        assertEquals("1", adresse.getNum(), "numero non conforme");
+        assertEquals(7000, adresse.getCp(), "code postal non enregistré : " + adresse.getCp() + " au lieu de 7000");
+        assertEquals("Mons", adresse.getLocalite(), "ville non enrégistrée : " + adresse.getLocalite() + " au lieu de Mons");
+        assertEquals("Rue de la chaussée", adresse.getRue(), "rue non enregistrée : " + adresse.getRue() + " au lieu de Rue de la chaussée");
+        assertEquals("1", adresse.getNum(), "numero non enregistré : " + adresse.getNum() + " au lieu de 1");
 
     }
 
     @Test
     void read() {
-        try{
+        try {
             int idadresse = adresse.getId();
             Adresse adresse2 = adresseServiceImpl.read(idadresse);
-            assertEquals(adresse.getCp(), adresse2.getCp(), "adresse non conforme");
-            assertEquals(adresse.getLocalite(), adresse2.getLocalite(), "adresse non conforme");
-            assertEquals(adresse.getRue(), adresse2.getRue(), "adresse non conforme");
-            assertEquals(adresse.getNum(), adresse2.getNum(), "adresse non conforme");
 
-        }catch (Exception e){
+            assertEquals(adresse.getCp(), adresse2.getCp(), "code postal différent" + adresse.getCp() + " au lieu de " + adresse2.getCp());
+            assertEquals(adresse.getLocalite(), adresse2.getLocalite(), "localite différente" + adresse.getLocalite() + " au lieu de " + adresse2.getLocalite());
+            assertEquals(adresse.getRue(), adresse2.getRue(), "rue différente" + adresse.getRue() + " au lieu de " + adresse2.getRue());
+            assertEquals(adresse.getNum(), adresse2.getNum(), "numero différent" + adresse.getNum() + " au lieu de " + adresse2.getNum());
+        } catch (Exception e) {
             System.out.println("erreur de création de l'adresse : " + adresse + " erreur : " + e);
         }
     }
@@ -75,12 +76,12 @@ class AdresseServiceImplTest {
             adresse.setLocalite("Willaupuis");
             adresse.setRue("Avenue des Sartiaux");
             adresse.setNum("159");
-            adresseServiceImpl.update(adresse);
-            assertEquals(7904, adresse.getCp(), "code postal non conforme");
-            assertEquals("Willaupuis", adresse.getLocalite(), "ville non conforme");
-            assertEquals("Avenue des Sartiaux", adresse.getRue(), "rue non conforme");
-            assertEquals("159", adresse.getNum(), "numero non conforme");
+            adresse = adresseServiceImpl.update(adresse);
 
+            assertEquals(7904, adresse.getCp(), "code postal différent " + adresse.getCp() + " au lieu de 7904");
+            assertEquals("Willaupuis", adresse.getLocalite(), "localite différente " + adresse.getLocalite() + " au lieu de Willaupuis");
+            assertEquals("Avenue des Sartiaux", adresse.getRue(), "rue différente " + adresse.getRue() + " au lieu de Avenue des Sartiaux");
+            assertEquals("159", adresse.getNum(), "numero différent " + adresse.getNum() + " au lieu de 159");
         } catch (Exception e) {
             System.out.println("erreur de création de l'adresse : " + adresse + " erreur : " + e);
         }
@@ -90,7 +91,9 @@ class AdresseServiceImplTest {
     void delete() {
         try {
             adresseServiceImpl.delete(adresse);
-            System.out.println("effacement de l'adresse : " + adresse);
+            Assertions.assertThrows(Exception.class, () -> {
+                adresseServiceImpl.read(adresse.getId());
+            }, "record non effacé");
         } catch (Exception e) {
             System.out.println("erreur de création de l'adresse : " + adresse + " erreur : " + e);
         }
@@ -107,12 +110,20 @@ class AdresseServiceImplTest {
     }
 
     @Test
-    void testRead() {
+    void rechLocalite() {
         try {
             List<Adresse> adresses = adresseServiceImpl.read("Mons");
-            assertNotEquals(0, adresses.size(), "nombre de adresses non conforme");
+            boolean trouve = false;
+            for (Adresse adresse : adresses) {
+                if (adresse.getLocalite().startsWith("Mons")) {
+                    trouve = true;
+                } else {
+                    fail("un record ne correspond pas , nom = " + adresse.getLocalite());
+                }
+            }
+            assertTrue(trouve, "record non trouvé dans la liste");
         } catch (Exception e) {
-            System.out.println("erreur de création de l'adresse : " + adresse + " erreur : " + e);
+            System.out.println("erreur de recherche de l'adresse : " + adresse + " erreur : " + e);
         }
     }
 }

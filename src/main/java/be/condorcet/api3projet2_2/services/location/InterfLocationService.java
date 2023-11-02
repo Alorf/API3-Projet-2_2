@@ -9,9 +9,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface InterfLocationService extends InterfService<Location> {
-    List<Location> getLocations(Client cl) throws Exception;
+    List<Location> read(Client cl) throws Exception;
 
-    List<Location> getLocationsByDate(Date date) throws Exception;
+    List<Location> read(LocalDate date) throws Exception;
 
-    List<Location> getLocationsByClientAndDatelocBetween(Client test, LocalDate now, LocalDate localDate) throws Exception;
+    List<Location> locationEntreDeuxDates(Client test, LocalDate now, LocalDate localDate) throws Exception;
 }

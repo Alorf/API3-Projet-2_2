@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -33,6 +34,12 @@ public class Facture {
 
     //Sans les joinColumn erreur de mapping
 
-    private Double cout;
+    private BigDecimal cout;
 
+    public Facture(@NonNull Location location, @NonNull Taxi taxi, BigDecimal cout) {
+        this.id = new FactureKey(location.getId(), taxi.getId());
+        this.location = location;
+        this.taxi = taxi;
+        this.cout = cout;
+    }
 }
