@@ -1,5 +1,6 @@
 package be.condorcet.api3projet2_2.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,6 +31,7 @@ public class Client {
 
     @OneToMany(mappedBy = "client")
     @ToString.Exclude
+    @JsonIgnore
     private List<Location> locations = new ArrayList<>();
 
     public List<Taxi> taxiUtiliseSansDoublon(){

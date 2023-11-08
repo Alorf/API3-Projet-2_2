@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Service
 @Transactional(rollbackOn = Exception.class)
-public class ClientServiceImpl implements InterfClientService{
+public class ClientServiceImpl implements InterfClientService {
 
     @Autowired
     private ClientRepository clientRepository;
@@ -31,7 +31,7 @@ public class ClientServiceImpl implements InterfClientService{
 
     @Override
     public Client read(Integer id) throws Exception {
-        Optional<Client> ocl= clientRepository.findById(id);
+        Optional<Client> ocl = clientRepository.findById(id);
         return ocl.get();
     }
 
@@ -54,7 +54,12 @@ public class ClientServiceImpl implements InterfClientService{
 
     @Override
     public List<Client> read(String nom) throws Exception {
-        return clientRepository.findByNomLike(nom+"%");
+        return clientRepository.findByNomLike(nom + "%");
+    }
+
+    @Override
+    public Client read(String nom, String prenom, String tel) throws Exception {
+        return clientRepository.findByNomAndPrenomAndTel(nom, prenom, tel);
     }
 
     @Override

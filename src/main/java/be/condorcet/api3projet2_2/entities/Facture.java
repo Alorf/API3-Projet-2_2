@@ -1,5 +1,6 @@
 package be.condorcet.api3projet2_2.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,12 +25,14 @@ public class Facture {
     @NonNull
     @MapsId("idLocation")
     @JoinColumn(name = "ID_LOCATION")
+    @JsonIgnore
     private Location location;
 
     @ManyToOne
     @NonNull
     @MapsId("idTaxi")
     @JoinColumn(name = "ID_TAXI")
+    @JsonIgnore
     private Taxi taxi;
 
     //Sans les joinColumn erreur de mapping

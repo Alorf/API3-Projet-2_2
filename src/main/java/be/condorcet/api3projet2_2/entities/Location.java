@@ -1,5 +1,6 @@
 package be.condorcet.api3projet2_2.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -46,4 +47,8 @@ public class Location {
     @ToString.Exclude
     @OneToMany(mappedBy = "location")
     List<Facture> facturations;
+
+    public Location(Integer id) {
+        this.id = id;
+    }
 }

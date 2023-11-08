@@ -21,6 +21,7 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
 
     //Opérations spéciales
 
+    Client findByNomAndPrenomAndTel(String nom, String prenom, String tel);
 
     @Query(value = "SELECT DISTINCT t\n" +
             "FROM Client c\n" +

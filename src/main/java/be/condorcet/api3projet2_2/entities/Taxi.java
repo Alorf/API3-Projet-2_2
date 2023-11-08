@@ -24,4 +24,8 @@ public class Taxi {
 
     @Column(name = "PRIXKM")
     private Double prixKm;
+
+    public Taxi(Integer id) {
+        this.id = id;
+    }
 }

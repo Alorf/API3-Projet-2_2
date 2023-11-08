@@ -17,6 +17,8 @@ import java.util.Set;
 public interface InterfClientService extends InterfService<Client> {
     List<Client> read(String nom) throws Exception;
 
+    Client read(String nom, String prenom, String tel) throws Exception;
+
     List<Taxi> taxiUtiliseSansDoublon(Integer idClient) throws Exception;
 
     List<Adresse> adresseLocationSansDoublon(Integer idClient) throws Exception;
