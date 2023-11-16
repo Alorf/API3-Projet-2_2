@@ -41,8 +41,7 @@ public class RestFacture {
     //-------------------Retrouver les factures portant un taxi donné--------------------------------------------------------
     @RequestMapping(value = "/idtaxi={idtaxi}", method = RequestMethod.GET)
     public ResponseEntity<List<Facture>> getFactureTaxi(@PathVariable(value = "idtaxi") int id) throws Exception {
-        System.out.println("recherche des commandes du client d'id " + id);
-        System.out.println("test???");
+        System.out.println("recherche des factures du client d'id " + id);
         Taxi taxi = taxiServiceImpl.read(id);
         System.out.println(taxi);
         List<Facture> lfac = factureServiceImpl.read(taxi);
@@ -54,9 +53,6 @@ public class RestFacture {
     public ResponseEntity<Facture> createFacture(@RequestBody Facture facture) throws Exception {
         facture.setLocation(new Location(facture.getId().getIdLocation()));
         facture.setTaxi(new Taxi(facture.getId().getIdTaxi()));
-        //fixme Revoir cout qui est null, j'ai retiré not null de la base de données
-
-        System.out.println("Création de Facture " + facture);
 
         factureServiceImpl.create(facture);
         return new ResponseEntity<>(facture, HttpStatus.OK);

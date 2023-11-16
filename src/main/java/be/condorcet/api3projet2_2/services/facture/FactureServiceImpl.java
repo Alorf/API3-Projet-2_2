@@ -23,6 +23,7 @@ public class FactureServiceImpl implements InterfFactureService {
 
     @Override
     public Facture create(Facture facture) throws Exception {
+        System.out.println(facture);
         factureRepository.save(facture);
         return facture;
     }
