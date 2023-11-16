@@ -8,6 +8,8 @@ import be.condorcet.api3projet2_2.entities.Taxi;
 import be.condorcet.api3projet2_2.repositories.FactureRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -50,6 +52,11 @@ public class FactureServiceImpl implements InterfFactureService {
     @Override
     public List<Facture> all() throws Exception {
         return factureRepository.findAll();
+    }
+
+    @Override
+    public Page<Facture> allp(Pageable pageable) throws Exception {
+        return factureRepository.findAll(pageable);
     }
 
     @Override

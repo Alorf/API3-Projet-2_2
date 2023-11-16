@@ -7,6 +7,8 @@ import be.condorcet.api3projet2_2.repositories.ClientRepository;
 import be.condorcet.api3projet2_2.repositories.LocationRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -45,6 +47,11 @@ public class LocationServiceImpl implements InterfLocationService {
     @Override
     public List<Location> all() throws Exception {
         return locationRepository.findAll();
+    }
+
+    @Override
+    public Page<Location> allp(Pageable pageable) throws Exception {
+        return locationRepository.findAll(pageable);
     }
 
     @Override

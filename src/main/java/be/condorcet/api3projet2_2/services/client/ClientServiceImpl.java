@@ -8,6 +8,8 @@ import be.condorcet.api3projet2_2.entities.Taxi;
 import be.condorcet.api3projet2_2.repositories.ClientRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
@@ -50,6 +52,11 @@ public class ClientServiceImpl implements InterfClientService {
     @Override
     public List<Client> all() throws Exception {
         return clientRepository.findAll();
+    }
+
+    @Override
+    public Page<Client> allp(Pageable pageable) throws Exception {
+        return clientRepository.findAll(pageable);
     }
 
     @Override

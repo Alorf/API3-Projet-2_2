@@ -5,10 +5,13 @@ import be.condorcet.api3projet2_2.services.facture.InterfFactureService;
 import be.condorcet.api3projet2_2.services.location.InterfLocationService;
 import be.condorcet.api3projet2_2.services.taxi.InterfTaxiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*", exposedHeaders = "*")
@@ -30,7 +33,7 @@ public class RestFacture {
     @RequestMapping(value = "/{idlocation}/{idtaxi}", method = RequestMethod.GET)
     public ResponseEntity<Facture> getFacture(@PathVariable(value = "idlocation") int idLocation, @PathVariable(value = "idtaxi") int idTaxi) throws Exception {
         FactureKey id = new FactureKey(idLocation, idTaxi);
-        System.out.println("recherche du facture d' id " + id);
+        System.out.println("recherche de la facture d' id " + id);
         Facture facture = factureServiceImpl.read(id);
         return new ResponseEntity<>(facture, HttpStatus.OK);
     }
@@ -51,6 +54,7 @@ public class RestFacture {
     public ResponseEntity<Facture> createFacture(@RequestBody Facture facture) throws Exception {
         facture.setLocation(new Location(facture.getId().getIdLocation()));
         facture.setTaxi(new Taxi(facture.getId().getIdTaxi()));
+        //fixme Revoir cout qui est null, j'ai retiré not null de la base de données
 
         System.out.println("Création de Facture " + facture);
 
@@ -72,7 +76,7 @@ public class RestFacture {
     @RequestMapping(value = "/{idlocation}/{idtaxi}", method = RequestMethod.DELETE)
     public ResponseEntity<Facture> deleteFacture(@PathVariable(value = "idlocation") int idLocation, @PathVariable(value = "idtaxi") int idTaxi) throws Exception {
         FactureKey id = new FactureKey(idLocation, idTaxi);
-        System.out.println("effacement du facture d'id " + id);
+        System.out.println("effacement de la facture d'id " + id);
         Facture facture = factureServiceImpl.read(id);
         factureServiceImpl.delete(facture);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -83,6 +87,14 @@ public class RestFacture {
     public ResponseEntity<List<Facture>> listFacture() throws Exception {
         System.out.println("recherche de tous les factures");
         return new ResponseEntity<>(factureServiceImpl.all(), HttpStatus.OK);
+    }
+
+    //-------------------Retrouver toutes les factures avec pagination --------------------------------------------------------
+
+    @RequestMapping(value = "/allp",method = RequestMethod.GET)
+    public ResponseEntity<Page<Facture>> listFacture(Pageable pageable) throws Exception{
+        System.out.println("recherche de toutes les factures");
+        return new ResponseEntity<>(factureServiceImpl.allp(pageable), HttpStatus.OK);
     }
 
     //-------------------Gérer les erreurs--------------------------------------------------------

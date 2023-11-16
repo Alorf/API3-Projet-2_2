@@ -5,6 +5,8 @@ import be.condorcet.api3projet2_2.entities.Location;
 import be.condorcet.api3projet2_2.services.client.InterfClientService;
 import be.condorcet.api3projet2_2.services.location.InterfLocationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -70,6 +72,13 @@ public class RestLocation {
     public ResponseEntity<List<Location>> listLocation() throws Exception {
         System.out.println("recherche de toutes les commandes");
         return new ResponseEntity<>(locationServiceImpl.all(), HttpStatus.OK);
+    }
+
+    //-------------------Retrouver toutes les commandes paginées------------------------------------------------
+    @RequestMapping(value = "/allp",method = RequestMethod.GET)
+    public ResponseEntity<Page<Location>> listLocation(Pageable pageable) throws Exception{
+        System.out.println("recherche de toutes les commandes");
+        return new ResponseEntity<>(locationServiceImpl.allp(pageable), HttpStatus.OK);
     }
 
 

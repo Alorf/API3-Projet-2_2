@@ -7,6 +7,8 @@ import be.condorcet.api3projet2_2.repositories.ClientRepository;
 import be.condorcet.api3projet2_2.repositories.TaxiRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,6 +47,11 @@ public class TaxiServiceImpl implements InterfTaxiService {
     @Override
     public List<Taxi> all() throws Exception {
         return taxiRepository.findAll();
+    }
+
+    @Override
+    public Page<Taxi> allp(Pageable pageable) throws Exception {
+        return taxiRepository.findAll(pageable);
     }
 
     @Override

@@ -2,8 +2,11 @@ package be.condorcet.api3projet2_2.webservices;
 
 import be.condorcet.api3projet2_2.entities.Adresse;
 import be.condorcet.api3projet2_2.entities.Adresse;
+import be.condorcet.api3projet2_2.entities.Client;
 import be.condorcet.api3projet2_2.services.adresse.InterfAdresseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,14 +18,14 @@ import java.util.List;
 @RequestMapping("/adresses")
 public class RestAdresse {
     @Autowired
-    private InterfAdresseService AdresseServiceImpl;
+    private InterfAdresseService adresseServiceImpl;
 
 
     //-------------------Retrouver l'adresse correspondant à un id donné--------------------------------------------------------
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Adresse> getAdresse(@PathVariable(value = "id") int id) throws Exception {
         System.out.println("recherche de l'adresse avec l'id " + id);
-        Adresse adresse = AdresseServiceImpl.read(id);
+        Adresse adresse = adresseServiceImpl.read(id);
         return new ResponseEntity<>(adresse, HttpStatus.OK);
     }
 
@@ -31,7 +34,7 @@ public class RestAdresse {
     public ResponseEntity<List<Adresse>> listAdressesLocalite(@PathVariable(value = "localite") String localite) throws Exception {
         System.out.println("recherche de la localite " + localite);
         List<Adresse> adresses;
-        adresses = AdresseServiceImpl.read(localite);
+        adresses = adresseServiceImpl.read(localite);
         return new ResponseEntity<>(adresses, HttpStatus.OK);
     }
 
@@ -39,7 +42,7 @@ public class RestAdresse {
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<Adresse> createAdresse(@RequestBody Adresse adresse) throws Exception {
         System.out.println("Création de l'adresse " + adresse);
-        AdresseServiceImpl.create(adresse);
+        adresseServiceImpl.create(adresse);
         return new ResponseEntity<>(adresse, HttpStatus.OK);
     }
 
@@ -48,7 +51,7 @@ public class RestAdresse {
     public ResponseEntity<Adresse> majAdresse(@PathVariable(value = "id") int id, @RequestBody Adresse nouvAdresse) throws Exception {
         System.out.println("maj de adresse id =  " + id);
         nouvAdresse.setId(id);
-        Adresse adresse = AdresseServiceImpl.update(nouvAdresse);
+        Adresse adresse = adresseServiceImpl.update(nouvAdresse);
         return new ResponseEntity<>(adresse, HttpStatus.OK);
     }
 
@@ -56,8 +59,8 @@ public class RestAdresse {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteAdresse(@PathVariable(value = "id") int id) throws Exception {
         System.out.println("effacement du adresse d'id " + id);
-        Adresse adresse = AdresseServiceImpl.read(id);
-        AdresseServiceImpl.delete(adresse);
+        Adresse adresse = adresseServiceImpl.read(id);
+        adresseServiceImpl.delete(adresse);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -65,7 +68,15 @@ public class RestAdresse {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity<List<Adresse>> listAdresse() throws Exception {
         System.out.println("recherche de tous les adresses");
-        return new ResponseEntity<>(AdresseServiceImpl.all(), HttpStatus.OK);
+        return new ResponseEntity<>(adresseServiceImpl.all(), HttpStatus.OK);
+    }
+
+    //-------------------Retrouver toutes les adresses avec pagination --------------------------------------------------------
+
+    @RequestMapping(value = "/allp",method = RequestMethod.GET)
+    public ResponseEntity<Page<Adresse>> listAdresse(Pageable pageable) throws Exception{
+        System.out.println("recherche de toutes les adresses");
+        return new ResponseEntity<>(adresseServiceImpl.allp(pageable), HttpStatus.OK);
     }
 
     //-------------------Gérer les erreurs--------------------------------------------------------

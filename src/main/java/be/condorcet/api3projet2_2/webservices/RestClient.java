@@ -3,6 +3,8 @@ package be.condorcet.api3projet2_2.webservices;
 import be.condorcet.api3projet2_2.entities.Client;
 import be.condorcet.api3projet2_2.services.client.InterfClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +51,7 @@ public class RestClient {
     public ResponseEntity<Client> createClient(@RequestBody Client client) throws Exception {
         System.out.println("Création de Client " + client.getNom());
         clientServiceImpl.create(client);
+        System.out.println("Debug");
         return new ResponseEntity<>(client, HttpStatus.OK);
     }
 
@@ -75,6 +78,14 @@ public class RestClient {
     public ResponseEntity<List<Client>> listClient() throws Exception {
         System.out.println("recherche de tous les clients");
         return new ResponseEntity<>(clientServiceImpl.all(), HttpStatus.OK);
+    }
+
+    //-------------------Retrouver tous les clients avec pagination --------------------------------------------------------
+
+    @RequestMapping(value = "/allp",method = RequestMethod.GET)
+    public ResponseEntity<Page<Client>> listClient(Pageable pageable) throws Exception{
+        System.out.println("recherche de tous les clients");
+        return new ResponseEntity<>(clientServiceImpl.allp(pageable), HttpStatus.OK);
     }
 
     //-------------------Gérer les erreurs--------------------------------------------------------

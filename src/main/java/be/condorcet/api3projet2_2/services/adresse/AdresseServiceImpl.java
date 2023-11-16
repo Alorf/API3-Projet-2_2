@@ -7,6 +7,8 @@ import be.condorcet.api3projet2_2.repositories.AdresseRepository;
 import be.condorcet.api3projet2_2.repositories.ClientRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,6 +48,11 @@ public class AdresseServiceImpl implements InterfAdresseService {
     @Override
     public List<Adresse> all() throws Exception {
         return adresseRepository.findAll();
+    }
+
+    @Override
+    public Page<Adresse> allp(Pageable pageable) throws Exception {
+        return adresseRepository.findAll(pageable);
     }
 
     @Override

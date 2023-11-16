@@ -1,8 +1,11 @@
 package be.condorcet.api3projet2_2.webservices;
 
+import be.condorcet.api3projet2_2.entities.Facture;
 import be.condorcet.api3projet2_2.entities.Taxi;
 import be.condorcet.api3projet2_2.services.taxi.InterfTaxiService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +17,14 @@ import java.util.List;
 @RequestMapping("/taxis")
 public class RestTaxi {
     @Autowired
-    private InterfTaxiService TaxiServiceImpl;
+    private InterfTaxiService taxiServiceImpl;
 
 
     //-------------------Retrouver le taxi correspondant à un id donné--------------------------------------------------------
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<Taxi> getTaxi(@PathVariable(value = "id") int id) throws Exception {
         System.out.println("recherche de le taxi avec l'id " + id);
-        Taxi taxi = TaxiServiceImpl.read(id);
+        Taxi taxi = taxiServiceImpl.read(id);
         return new ResponseEntity<>(taxi, HttpStatus.OK);
     }
 
@@ -30,7 +33,7 @@ public class RestTaxi {
     public ResponseEntity<List<Taxi>> listTaxisCarburant(@PathVariable(value = "carburant") String carburant) throws Exception {
         System.out.println("recherche de la carburant " + carburant);
         List<Taxi> taxis;
-        taxis = TaxiServiceImpl.read(carburant);
+        taxis = taxiServiceImpl.read(carburant);
         return new ResponseEntity<>(taxis, HttpStatus.OK);
     }
 
@@ -38,7 +41,7 @@ public class RestTaxi {
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<Taxi> createTaxi(@RequestBody Taxi taxi) throws Exception {
         System.out.println("Création de le taxi " + taxi);
-        TaxiServiceImpl.create(taxi);
+        taxiServiceImpl.create(taxi);
         return new ResponseEntity<>(taxi, HttpStatus.OK);
     }
 
@@ -47,7 +50,7 @@ public class RestTaxi {
     public ResponseEntity<Taxi> majTaxi(@PathVariable(value = "id") int id, @RequestBody Taxi nouvTaxi) throws Exception {
         System.out.println("maj de taxi id =  " + id);
         nouvTaxi.setId(id);
-        Taxi taxi = TaxiServiceImpl.update(nouvTaxi);
+        Taxi taxi = taxiServiceImpl.update(nouvTaxi);
         return new ResponseEntity<>(taxi, HttpStatus.OK);
     }
 
@@ -55,8 +58,8 @@ public class RestTaxi {
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> deleteTaxi(@PathVariable(value = "id") int id) throws Exception {
         System.out.println("effacement du taxi d'id " + id);
-        Taxi taxi = TaxiServiceImpl.read(id);
-        TaxiServiceImpl.delete(taxi);
+        Taxi taxi = taxiServiceImpl.read(id);
+        taxiServiceImpl.delete(taxi);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -64,7 +67,15 @@ public class RestTaxi {
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity<List<Taxi>> listTaxi() throws Exception {
         System.out.println("recherche de tous les taxis");
-        return new ResponseEntity<>(TaxiServiceImpl.all(), HttpStatus.OK);
+        return new ResponseEntity<>(taxiServiceImpl.all(), HttpStatus.OK);
+    }
+
+    //-------------------Retrouver tous les taxis avec pagination --------------------------------------------------------
+
+    @RequestMapping(value = "/allp",method = RequestMethod.GET)
+    public ResponseEntity<Page<Taxi>> listTaxi(Pageable pageable) throws Exception{
+        System.out.println("recherche de tous les taxis");
+        return new ResponseEntity<>(taxiServiceImpl.allp(pageable), HttpStatus.OK);
     }
 
     //-------------------Gérer les erreurs--------------------------------------------------------

@@ -206,7 +206,7 @@ class ClientServiceImplTest {
     }
 
     @Test
-    void adresseLocationSansDoublon() {
+    void deadresseLocationSansDoublon() {
         try {
             List<Adresse> adresses = clientServiceImpl.adresseLocationSansDoublon(1);
             adresses.forEach(System.out::println);
