@@ -78,10 +78,10 @@ public class RestFacture {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //-------------------Retrouver tous les factures --------------------------------------------------------
+    //-------------------Retrouver toute les factures --------------------------------------------------------
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity<List<Facture>> listFacture() throws Exception {
-        System.out.println("recherche de tous les factures");
+        System.out.println("recherche de toute les factures");
         return new ResponseEntity<>(factureServiceImpl.all(), HttpStatus.OK);
     }
 

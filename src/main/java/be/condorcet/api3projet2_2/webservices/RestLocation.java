@@ -52,7 +52,7 @@ public class RestLocation {
     //-------------------Mettre à jour une location d'un n° donné--------------------------------------------------------
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public ResponseEntity<Location> majClient(@PathVariable(value = "id") int id, @RequestBody Location nouvloc) throws Exception {
-        System.out.println("maj de la commade n° " + id);
+        System.out.println("maj de la location n° " + id);
         nouvloc.setId(id);
         Location locact = locationServiceImpl.update(nouvloc);
         return new ResponseEntity<>(locact, HttpStatus.OK);
