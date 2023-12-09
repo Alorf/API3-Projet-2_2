@@ -59,4 +59,9 @@ public class TaxiServiceImpl implements InterfTaxiService {
         return taxiRepository.findByCarburant(carburant);
     }
 
+    @Override
+    public Taxi readImmatriculation(String immatriculation) {
+        return taxiRepository.findByImmatriculation(immatriculation);
+    }
+
 }

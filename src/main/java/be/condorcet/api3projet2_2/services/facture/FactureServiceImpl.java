@@ -1,10 +1,8 @@
 package be.condorcet.api3projet2_2.services.facture;
 
 
+import be.condorcet.api3projet2_2.entities.*;
 import be.condorcet.api3projet2_2.entities.Facture;
-import be.condorcet.api3projet2_2.entities.FactureKey;
-import be.condorcet.api3projet2_2.entities.Facture;
-import be.condorcet.api3projet2_2.entities.Taxi;
 import be.condorcet.api3projet2_2.repositories.FactureRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +37,11 @@ public class FactureServiceImpl implements InterfFactureService {
     }
 
     @Override
+    public Page<Facture> allp(Pageable pageable, Location loc) throws Exception {
+        return factureRepository.findAllByLocation(loc, pageable);
+    }
+
+    @Override
     public Facture update(Facture facture) throws Exception {
         read(facture.getId());
         factureRepository.save(facture);
@@ -63,6 +66,11 @@ public class FactureServiceImpl implements InterfFactureService {
     @Override
     public List<Facture> read(Taxi taxi) throws Exception {
         return factureRepository.findByTaxi(taxi);
+    }
+
+    @Override
+    public List<Facture> read(Location loc) throws Exception {
+        return factureRepository.findByLocation(loc);
     }
 
 }

@@ -10,4 +10,5 @@ public interface InterfTaxiService extends InterfService<Taxi> {
 
     List<Taxi> read(String carburant) throws Exception;
 
+    Taxi readImmatriculation(String immatriculation);
 }

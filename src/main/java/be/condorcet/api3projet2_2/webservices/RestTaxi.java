@@ -31,10 +31,19 @@ public class RestTaxi {
     //-------------------Retrouver les taxis portant un carburant donnée--------------------------------------------------------
     @RequestMapping(value = "/carburant={carburant}", method = RequestMethod.GET)
     public ResponseEntity<List<Taxi>> listTaxisCarburant(@PathVariable(value = "carburant") String carburant) throws Exception {
-        System.out.println("recherche de la carburant " + carburant);
+        System.out.println("recherche des taxi par le carburant " + carburant);
         List<Taxi> taxis;
         taxis = taxiServiceImpl.read(carburant);
         return new ResponseEntity<>(taxis, HttpStatus.OK);
+    }
+
+    //-------------------Retrouver le taxi portant une plaque donnée--------------------------------------------------------
+    @RequestMapping(value = "/immatriculation={immatriculation}", method = RequestMethod.GET)
+    public ResponseEntity<Taxi> getTaxiImmatriculation(@PathVariable(value = "immatriculation") String immatriculation) throws Exception {
+        System.out.println("recherche du taxi par l'immatriculation " + immatriculation);
+        Taxi taxi;
+        taxi = taxiServiceImpl.readImmatriculation(immatriculation);
+        return new ResponseEntity<>(taxi, HttpStatus.OK);
     }
 
     //-------------------Créer un taxi--------------------------------------------------------

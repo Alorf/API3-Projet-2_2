@@ -1,5 +1,6 @@
 package be.condorcet.api3projet2_2.services;
 
+import be.condorcet.api3projet2_2.entities.Location;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -5,6 +5,8 @@ import be.condorcet.api3projet2_2.entities.FactureKey;
 import be.condorcet.api3projet2_2.entities.Location;
 import be.condorcet.api3projet2_2.entities.Taxi;
 import lombok.NonNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +18,10 @@ import java.util.Optional;
 public interface FactureRepository extends JpaRepository<Facture, FactureKey> {
 
     List<Facture> findByTaxi(Taxi taxi);
+
+    List<Facture> findByLocation(Location location);
+
+    Page<Facture> findAllByLocation(Location loc, Pageable pageable);
 
     Facture findFactureByLocationAndTaxiAndCout(@NonNull Location location, @NonNull Taxi taxi, BigDecimal cout);
 }

@@ -85,6 +85,7 @@ public class RestClient {
     @RequestMapping(value = "/allp",method = RequestMethod.GET)
     public ResponseEntity<Page<Client>> listClient(Pageable pageable) throws Exception{
         System.out.println("recherche de tous les clients");
+        System.out.println(pageable);
         return new ResponseEntity<>(clientServiceImpl.allp(pageable), HttpStatus.OK);
     }
 

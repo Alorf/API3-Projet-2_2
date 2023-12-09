@@ -13,4 +13,7 @@ public interface TaxiRepository extends JpaRepository<Taxi, Integer> {
 
     List<Taxi> findByCarburant(String carburant);
 
+    Taxi findByImmatriculation(String immatriculation);
+
+
 }

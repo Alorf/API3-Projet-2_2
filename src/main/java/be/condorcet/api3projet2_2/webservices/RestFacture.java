@@ -40,11 +40,21 @@ public class RestFacture {
 
     //-------------------Retrouver les factures portant un taxi donné--------------------------------------------------------
     @RequestMapping(value = "/idtaxi={idtaxi}", method = RequestMethod.GET)
-    public ResponseEntity<List<Facture>> getFactureTaxi(@PathVariable(value = "idtaxi") int id) throws Exception {
+    public ResponseEntity<List<Facture>> getFacturesTaxi(@PathVariable(value = "idtaxi") int id) throws Exception {
         System.out.println("recherche des factures du client d'id " + id);
         Taxi taxi = taxiServiceImpl.read(id);
         System.out.println(taxi);
         List<Facture> lfac = factureServiceImpl.read(taxi);
+        return new ResponseEntity<>(lfac, HttpStatus.OK);
+    }
+
+    //-------------------Retrouver les factures portant une location donnée--------------------------------------------------------
+    @RequestMapping(value = "/idlocation={idlocation}", method = RequestMethod.GET)
+    public ResponseEntity<List<Facture>> getFacturesLocation(@PathVariable(value = "idlocation") int id) throws Exception {
+        System.out.println("recherche des factures de la location d'id " + id);
+        Location loc = locationServiceImpl.read(id);
+        System.out.println(loc);
+        List<Facture> lfac = factureServiceImpl.read(loc);
         return new ResponseEntity<>(lfac, HttpStatus.OK);
     }
 
@@ -83,6 +93,15 @@ public class RestFacture {
     public ResponseEntity<List<Facture>> listFacture() throws Exception {
         System.out.println("recherche de toute les factures");
         return new ResponseEntity<>(factureServiceImpl.all(), HttpStatus.OK);
+    }
+
+    //-------------------Retrouver des factures d'une location avec paginations --------------------------------------------------------
+
+    @RequestMapping(value = "/allp/{idlocation}", method = RequestMethod.GET)
+    public ResponseEntity<Page<Facture>> listFactureLocation(Pageable pageable, @PathVariable(value = "idlocation") int id) throws Exception {
+        System.out.println("recherche de toutes les factures d'une location");
+        Location loc = locationServiceImpl.read(id);
+        return new ResponseEntity<>(factureServiceImpl.allp(pageable, loc), HttpStatus.OK);
     }
 
     //-------------------Retrouver toutes les factures avec pagination --------------------------------------------------------

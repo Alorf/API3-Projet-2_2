@@ -12,9 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-//@CrossOrigin(origins = "*", allowedHeaders = "*",exposedHeaders = "*")
-@RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*",exposedHeaders = "*") @RestController
 @RequestMapping("/locations")
 public class RestLocation {
 
