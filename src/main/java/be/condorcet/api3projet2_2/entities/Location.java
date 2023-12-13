@@ -46,6 +46,7 @@ public class Location {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "location")
+    @JsonIgnore
     List<Facture> facturations;
 
     public Location(Integer id) {

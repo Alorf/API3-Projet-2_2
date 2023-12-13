@@ -61,8 +61,7 @@ public class RestFacture {
     //-------------------Créer un facture--------------------------------------------------------
     @RequestMapping(value = "", method = RequestMethod.POST)
     public ResponseEntity<Facture> createFacture(@RequestBody Facture facture) throws Exception {
-        facture.setLocation(new Location(facture.getId().getIdLocation()));
-        facture.setTaxi(new Taxi(facture.getId().getIdTaxi()));
+        facture.setId(new FactureKey(facture.getLocation().getId(), facture.getTaxi().getId()));
 
         factureServiceImpl.create(facture);
         return new ResponseEntity<>(facture, HttpStatus.OK);

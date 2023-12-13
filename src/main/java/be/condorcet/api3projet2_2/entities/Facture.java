@@ -19,20 +19,19 @@ public class Facture {
 
     @EmbeddedId
     @NonNull
+    @JsonIgnore
     private FactureKey id;
 
     @ManyToOne
     @NonNull
     @MapsId("idLocation")
     @JoinColumn(name = "ID_LOCATION")
-    @JsonIgnore
     private Location location;
 
     @ManyToOne
     @NonNull
     @MapsId("idTaxi")
     @JoinColumn(name = "ID_TAXI")
-    @JsonIgnore
     private Taxi taxi;
 
     //Sans les joinColumn erreur de mapping
