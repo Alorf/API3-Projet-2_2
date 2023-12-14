@@ -15,5 +15,9 @@ public interface TaxiRepository extends JpaRepository<Taxi, Integer> {
 
     Taxi findByImmatriculation(String immatriculation);
 
+    //SELECT * FROM API_TAXI WHERE ID_TAXI NOT IN (SELECT ID_TAXI FROM API_FACTURE WHERE ID_LOCATION = 8)
+    @Query(value = "select t from Taxi t where t.id not in(select f.taxi.id from Facture f where f.location.id = :idlocation)")
+    List<Taxi> findAllByNotInLocation(@Param("idlocation") Integer idlocation);
+
 
 }

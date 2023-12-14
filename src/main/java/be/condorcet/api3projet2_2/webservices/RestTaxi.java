@@ -1,7 +1,9 @@
 package be.condorcet.api3projet2_2.webservices;
 
 import be.condorcet.api3projet2_2.entities.Facture;
+import be.condorcet.api3projet2_2.entities.Location;
 import be.condorcet.api3projet2_2.entities.Taxi;
+import be.condorcet.api3projet2_2.services.location.InterfLocationService;
 import be.condorcet.api3projet2_2.services.taxi.InterfTaxiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,9 @@ import java.util.List;
 public class RestTaxi {
     @Autowired
     private InterfTaxiService taxiServiceImpl;
+
+    @Autowired
+    private InterfLocationService locationServiceImpl;
 
 
     //-------------------Retrouver le taxi correspondant à un id donné--------------------------------------------------------
@@ -79,6 +84,13 @@ public class RestTaxi {
         return new ResponseEntity<>(taxiServiceImpl.all(), HttpStatus.OK);
     }
 
+    //-------------------Retrouver tous les taxis --------------------------------------------------------
+    @RequestMapping(value = "/all/location={idlocation}", method = RequestMethod.GET)
+    public ResponseEntity<List<Taxi>> listTaxiNotInLocation(@PathVariable(value = "idlocation") int idlocation) throws Exception {
+        System.out.println("recherche des taxi qui ne se trouve pas dans la location " + idlocation);
+        Location loc = locationServiceImpl.read(idlocation);
+        return new ResponseEntity<>(taxiServiceImpl.allNotInLoc(loc), HttpStatus.OK);
+    }
     //-------------------Retrouver tous les taxis avec pagination --------------------------------------------------------
 
     @RequestMapping(value = "/allp",method = RequestMethod.GET)

@@ -2,6 +2,7 @@ package be.condorcet.api3projet2_2.services.taxi;
 
 
 import be.condorcet.api3projet2_2.entities.Client;
+import be.condorcet.api3projet2_2.entities.Location;
 import be.condorcet.api3projet2_2.entities.Taxi;
 import be.condorcet.api3projet2_2.repositories.ClientRepository;
 import be.condorcet.api3projet2_2.repositories.TaxiRepository;
@@ -62,6 +63,11 @@ public class TaxiServiceImpl implements InterfTaxiService {
     @Override
     public Taxi readImmatriculation(String immatriculation) {
         return taxiRepository.findByImmatriculation(immatriculation);
+    }
+
+    @Override
+    public List<Taxi> allNotInLoc(Location loc) {
+        return taxiRepository.findAllByNotInLocation(loc.getId());
     }
 
 }
