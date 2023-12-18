@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*",exposedHeaders = "*") @RestController
 @RequestMapping("/locations")
@@ -35,6 +36,17 @@ public class RestLocation {
         System.out.println("recherche des locations du client d'id " + id);
         Client cl = clientServiceImpl.read(id);
         List<Location> lloc = locationServiceImpl.read(cl);
+        return new ResponseEntity<>(lloc, HttpStatus.OK);
+    }
+
+    //-------------------Retrouver la location entre 2 dates--------------------------------------------------------
+    @RequestMapping(value = "/{date1}/{date2}", method = RequestMethod.GET)
+    public ResponseEntity<List<Location>> getLocationBetweenDate(@PathVariable(value = "date1") LocalDate d1,@PathVariable(value = "date2") LocalDate d2) throws Exception {
+
+        List<Location> lloc = locationServiceImpl.locationEntreDeuxDates(d1,d2);
+        for (Location l : lloc) {
+            System.out.println(l);
+        }
         return new ResponseEntity<>(lloc, HttpStatus.OK);
     }
 

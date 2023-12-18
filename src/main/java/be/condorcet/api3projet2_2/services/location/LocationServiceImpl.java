@@ -66,8 +66,8 @@ public class LocationServiceImpl implements InterfLocationService {
     }
 
     @Override
-    public List<Location> locationEntreDeuxDates(Client client, LocalDate d1, LocalDate d2) {
-        return locationRepository.findLocationsByClientAndDatelocBetween(client, d1, d2);
+    public List<Location> locationEntreDeuxDates(LocalDate d1, LocalDate d2) {
+        return locationRepository.findLocationsByDatelocBetween(d1, d2);
     }
 
 }

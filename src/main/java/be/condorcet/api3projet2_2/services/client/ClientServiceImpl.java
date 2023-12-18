@@ -70,8 +70,8 @@ public class ClientServiceImpl implements InterfClientService {
     }
 
     @Override
-    public List<Taxi> taxiUtiliseSansDoublon(Integer idClient) throws Exception {
-        return clientRepository.taxiUtiliseSansDoublon(idClient);
+    public Page<Taxi> taxiUtiliseSansDoublon(Integer idClient, Pageable page) throws Exception {
+        return clientRepository.taxiUtiliseSansDoublon(idClient, page);
     }
 
     @Override

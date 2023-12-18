@@ -5,6 +5,8 @@ import be.condorcet.api3projet2_2.entities.Client;
 import be.condorcet.api3projet2_2.entities.Location;
 import be.condorcet.api3projet2_2.entities.Taxi;
 import jakarta.persistence.SqlResultSetMapping;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,12 +26,14 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
     Client findByNomAndPrenomAndTel(String nom, String prenom, String tel);
 
     @Query(value = "SELECT DISTINCT t\n" +
-            "FROM Client c\n" +
-            "         JOIN Location l ON l.id = c.id\n" +
-            "         JOIN Facture f ON f.location.id = l.id\n" +
-            "         JOIN Taxi t ON t.id = f.taxi.id\n" +
-            "WHERE c.id=:idclient")
-    List<Taxi> taxiUtiliseSansDoublon(@Param("idclient") Integer idClient);
+            "FROM Taxi t\n" +
+            "JOIN Facture f ON t.id = f.taxi.id\n" +
+            "JOIN Location l ON l.id = f.location.id\n" +
+            "JOIN Client c ON c.id = l.client.id\n" +
+            "WHERE c.id = :idclient\n" +
+            "ORDER BY t.immatriculation ASC")
+    Page<Taxi> taxiUtiliseSansDoublon(@Param("idclient") Integer idClient, Pageable pageable);
+
 
     @Query(value = "SELECT DISTINCT a\n" +
             "FROM Adresse a\n" +

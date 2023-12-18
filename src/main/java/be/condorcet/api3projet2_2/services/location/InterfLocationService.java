@@ -13,5 +13,5 @@ public interface InterfLocationService extends InterfService<Location> {
 
     List<Location> read(LocalDate date) throws Exception;
 
-    List<Location> locationEntreDeuxDates(Client test, LocalDate now, LocalDate localDate) throws Exception;
+    List<Location> locationEntreDeuxDates(LocalDate date1, LocalDate date2) throws Exception;
 }

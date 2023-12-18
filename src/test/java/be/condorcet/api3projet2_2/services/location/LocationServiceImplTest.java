@@ -181,8 +181,7 @@ class LocationServiceImplTest {
     @Test
     void locationEntreDeuxDates() {
         try {
-            Client cl2 = clientServiceImpl.read(1);
-            List<Location> locs = locationServiceImpl.locationEntreDeuxDates(cl2, LocalDate.now().minusYears(3), LocalDate.now());
+            List<Location> locs = locationServiceImpl.locationEntreDeuxDates(LocalDate.now().minusYears(3), LocalDate.now());
             assertNotEquals(0, locs.size(), "la liste ne contient aucun élément");
         } catch (Exception e) {
             fail("erreur de recherche de toutes les locations d'un client et d'une date " + e);

@@ -16,6 +16,6 @@ public interface LocationRepository extends JpaRepository<Location, Integer> {
 
     List<Location> findLocationByDateloc(LocalDate date);
 
-    List<Location> findLocationsByClientAndDatelocBetween(Client client, LocalDate d1, LocalDate d2);
+    List<Location> findLocationsByDatelocBetween(LocalDate d1, LocalDate d2);
 
 }
