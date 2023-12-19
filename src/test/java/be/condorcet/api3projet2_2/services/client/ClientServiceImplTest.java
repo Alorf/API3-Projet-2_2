@@ -194,18 +194,17 @@ class ClientServiceImplTest {
 
     }
 
-    //fixme : tester la méthode
-    /*@Test
+    @Test
     void taxiUtiliseSansDoublon() {
         try {
-            Page<Taxi> taxis = clientServiceImpl.taxiUtiliseSansDoublon(1, null);
+            List<Taxi> taxis = clientServiceImpl.taxiUtiliseSansDoublon(1);
             taxis.forEach(System.out::println);
 
             assertNotEquals(0, taxis.size(), "la liste ne contient aucun élément");
         } catch (Exception e) {
             fail("erreur de recherche de taxis par client " + e);
         }
-    }*/
+    }
 
     @Test
     void deadresseLocationSansDoublon() {
