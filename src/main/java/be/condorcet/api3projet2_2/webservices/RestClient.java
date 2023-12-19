@@ -1,5 +1,6 @@
 package be.condorcet.api3projet2_2.webservices;
 
+import be.condorcet.api3projet2_2.entities.Adresse;
 import be.condorcet.api3projet2_2.entities.Client;
 import be.condorcet.api3projet2_2.entities.Taxi;
 import be.condorcet.api3projet2_2.services.client.InterfClientService;
@@ -94,9 +95,17 @@ public class RestClient {
     //-------------------Retrouver tous les taxis sans doublons --------------------------------------------------------
 
     @RequestMapping(value = "/taxiSansDoublon/idclient={id}",method = RequestMethod.GET)
-    public ResponseEntity<Page<Taxi>> listTaxiSansDoublons(@PathVariable(value = "id") int idclient, Pageable pageable) throws Exception{
+    public ResponseEntity<List<Taxi>> listTaxiSansDoublons(@PathVariable(value = "id") int idclient) throws Exception{
         System.out.println("recherche de tous les taxis sans doublons");
-        return new ResponseEntity<>(clientServiceImpl.taxiUtiliseSansDoublon(idclient, pageable), HttpStatus.OK);
+        return new ResponseEntity<>(clientServiceImpl.taxiUtiliseSansDoublon(idclient), HttpStatus.OK);
+    }
+
+    //-------------------Retrouver toutes les adresses sans doublons --------------------------------------------------------
+
+    @RequestMapping(value = "/adressesSansDoublon/idclient={id}",method = RequestMethod.GET)
+    public ResponseEntity<List<Adresse>> listAdressesSansDoublons(@PathVariable(value = "id") int idclient) throws Exception{
+        System.out.println("recherche de tous les taxis sans doublons");
+        return new ResponseEntity<>(clientServiceImpl.adresseLocationSansDoublon(idclient), HttpStatus.OK);
     }
 
     //-------------------Gérer les erreurs--------------------------------------------------------

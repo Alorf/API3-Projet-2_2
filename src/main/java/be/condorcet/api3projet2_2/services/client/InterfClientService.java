@@ -21,7 +21,7 @@ public interface InterfClientService extends InterfService<Client> {
 
     Client read(String nom, String prenom, String tel) throws Exception;
 
-    Page<Taxi> taxiUtiliseSansDoublon(Integer idClient, Pageable page) throws Exception;
+    List<Taxi> taxiUtiliseSansDoublon(Integer idClient) throws Exception;
 
     List<Adresse> adresseLocationSansDoublon(Integer idClient) throws Exception;
 }

@@ -32,7 +32,7 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
             "JOIN Client c ON c.id = l.client.id\n" +
             "WHERE c.id = :idclient\n" +
             "ORDER BY t.immatriculation ASC")
-    Page<Taxi> taxiUtiliseSansDoublon(@Param("idclient") Integer idClient, Pageable pageable);
+    List<Taxi> taxiUtiliseSansDoublon(@Param("idclient") Integer idClient);
 
 
     @Query(value = "SELECT DISTINCT a\n" +
