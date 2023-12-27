@@ -94,6 +94,15 @@ public class RestFacture {
         return new ResponseEntity<>(factureServiceImpl.all(), HttpStatus.OK);
     }
 
+    //-------------------Retrouver le prix total d'une location --------------------------------------------------------
+    @RequestMapping(value = "/total/{idlocation}", method = RequestMethod.GET)
+    public ResponseEntity<BigDecimal> getTotal(@PathVariable(value = "idlocation") int id) throws Exception {
+        System.out.println("recherche du prix total d'une location");
+        Location loc = locationServiceImpl.read(id);
+
+        return new ResponseEntity<>(factureServiceImpl.sumCoutByLocation(loc), HttpStatus.OK);
+    }
+
     //-------------------Retrouver des factures d'une location avec paginations --------------------------------------------------------
 
     @RequestMapping(value = "/allp/{idlocation}", method = RequestMethod.GET)

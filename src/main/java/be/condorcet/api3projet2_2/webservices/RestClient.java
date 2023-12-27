@@ -104,7 +104,7 @@ public class RestClient {
 
     @RequestMapping(value = "/adressesSansDoublon/idclient={id}",method = RequestMethod.GET)
     public ResponseEntity<List<Adresse>> listAdressesSansDoublons(@PathVariable(value = "id") int idclient) throws Exception{
-        System.out.println("recherche de tous les taxis sans doublons");
+        System.out.println("recherche de toutes les adresses sans doublons");
         return new ResponseEntity<>(clientServiceImpl.adresseLocationSansDoublon(idclient), HttpStatus.OK);
     }
 

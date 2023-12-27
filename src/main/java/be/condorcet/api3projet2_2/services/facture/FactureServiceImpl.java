@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +40,11 @@ public class FactureServiceImpl implements InterfFactureService {
     @Override
     public Page<Facture> allp(Pageable pageable, Location loc) throws Exception {
         return factureRepository.findAllByLocation(loc, pageable);
+    }
+
+    @Override
+    public BigDecimal sumCoutByLocation(Location location) {
+        return factureRepository.sumCoutByLocation(location);
     }
 
     @Override

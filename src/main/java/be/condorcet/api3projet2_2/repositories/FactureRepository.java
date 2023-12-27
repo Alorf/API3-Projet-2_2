@@ -8,6 +8,8 @@ import lombok.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -21,6 +23,8 @@ public interface FactureRepository extends JpaRepository<Facture, FactureKey> {
 
     List<Facture> findByLocation(Location location);
 
+    @Query(value = "SELECT SUM(f.cout) FROM Facture f WHERE f.location = :location")
+    BigDecimal sumCoutByLocation(@Param("location") Location location);
     Page<Facture> findAllByLocation(Location loc, Pageable pageable);
 
     Facture findFactureByLocationAndTaxiAndCout(@NonNull Location location, @NonNull Taxi taxi, BigDecimal cout);
