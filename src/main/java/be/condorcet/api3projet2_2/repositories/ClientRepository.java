@@ -41,4 +41,8 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
             "WHERE l.client.id = :idclient")
     List<Adresse> adresseLocationSansDoublon(@Param("idclient") Integer idClient);
 
+    // Q1 Examen
+    @Query(value = "SELECT SUM(l.kmTotal) FROM Location l WHERE l.client.id = :idclient")
+    Integer getKmParcouruByClient(@Param("idclient") Integer idClient);
+
 }

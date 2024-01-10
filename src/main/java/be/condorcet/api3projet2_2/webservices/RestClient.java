@@ -30,6 +30,17 @@ public class RestClient {
         return new ResponseEntity<>(client, HttpStatus.OK);
     }
 
+    //------------------- EXAMEN : Retrouver le kilométrage total correspondant d'un client gràce à un id donné--------------------------------------------------------
+    @RequestMapping(value = "/kmtotal/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Integer> getKmTotalClient(@PathVariable(value = "id") int id) throws Exception {
+        System.out.println("recherche du km total du client d' id " + id);
+        Integer km = clientServiceImpl.getKmParcouruByClient(id);
+        if (km == null) {
+            km = 0;
+        }
+        return new ResponseEntity<>(km, HttpStatus.OK);
+    }
+
     //-------------------Retrouver les clients portant un nom donné--------------------------------------------------------
     @RequestMapping(value = "/nom={nom}", method = RequestMethod.GET)
     public ResponseEntity<List<Client>> listClientsNom(@PathVariable(value = "nom") String nom) throws Exception {

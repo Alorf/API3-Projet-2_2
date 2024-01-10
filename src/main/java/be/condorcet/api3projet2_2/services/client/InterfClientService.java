@@ -24,4 +24,7 @@ public interface InterfClientService extends InterfService<Client> {
     List<Taxi> taxiUtiliseSansDoublon(Integer idClient) throws Exception;
 
     List<Adresse> adresseLocationSansDoublon(Integer idClient) throws Exception;
+
+    //Examen Q1
+    Integer getKmParcouruByClient(Integer idClient) throws Exception;
 }

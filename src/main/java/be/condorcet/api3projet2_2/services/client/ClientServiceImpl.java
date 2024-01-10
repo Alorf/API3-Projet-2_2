@@ -79,4 +79,10 @@ public class ClientServiceImpl implements InterfClientService {
         return clientRepository.adresseLocationSansDoublon(idClient);
     }
 
+    //Examen Q1
+    @Override
+    public Integer getKmParcouruByClient(Integer idClient) throws Exception {
+        return clientRepository.getKmParcouruByClient(idClient);
+    }
+
 }
